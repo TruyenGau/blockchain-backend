@@ -14,6 +14,8 @@ app.use(express.json()) // for json
 app.use(express.urlencoded({ extended: true })) // for form data
 app.use(cors());
 app.use('/product', express.static(path.join(__dirname, 'product')));
+app.use('/routes', express.static(path.join(__dirname, 'routes')));
+
 //config template engine
 configViewEngine(app);
 

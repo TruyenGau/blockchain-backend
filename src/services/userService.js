@@ -3,6 +3,7 @@ require("dotenv").config();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
+const Product = require("../models/product");
 
 
 const createUserService = async (name, email, password, confirmPassword) => {
@@ -114,8 +115,23 @@ const getCountAccountService = async () => {
     }
 }
 
-const createProductService = async () => {
-
+const getCountProductService = async () => {
+    try {
+        let result = await Product.countDocuments({})
+        return result
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+const getProductService = async () => {
+    try {
+        let result = await Product.find({});
+        return result
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
 }
 
 module.exports = {
@@ -124,5 +140,6 @@ module.exports = {
     getUserService,
     updateAccountService,
     getCountAccountService,
-    createProductService
+    getProductService,
+    getCountProductService
 }

@@ -1,5 +1,5 @@
 const Product = require("../models/product");
-const { createUserService, loginService, getUserService, updateAccountService, getCountAccountService } = require("../services/userService");
+const { createUserService, loginService, getUserService, updateAccountService, getCountAccountService, getProductService, getCountProductService } = require("../services/userService");
 const path = require('path');
 const createUserAPI = async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
@@ -36,6 +36,12 @@ const getCountUser = async (req, res) => {
     console.log("check data", data);
     return res.status(200).json({ data });
 }
+const getCountProduct = async (req, res) => {
+    const data = await getCountProductService();
+    console.log("check data", data);
+    return res.status(200).json({ data });
+}
+
 const createProductAPI = async (req, res) => {
     try {
         const { name, price, shortDesc, address, stock, category } = req.body;
@@ -59,6 +65,11 @@ const createProductAPI = async (req, res) => {
     }
 }
 
+const handleGetProduct = async (req, res) => {
+    const data = await getProductService();
+    return res.status(200).json(data);
+}
+
 module.exports = {
     createUserAPI,
     handleLogin,
@@ -66,5 +77,7 @@ module.exports = {
     getAccount,
     handleUpdateAccount,
     getCountUser,
-    createProductAPI
+    createProductAPI,
+    handleGetProduct,
+    getCountProduct
 }
