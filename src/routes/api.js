@@ -23,7 +23,7 @@ routerAPI.get("/countProduct", getCountProduct);
 
 /////////////////////////////////////////
 // Kiểm tra xem thư mục 'product' đã tồn tại chưa, nếu chưa thì tạo thư mục
-
+routerAPI.get("/getProduct", handleGetProduct)
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, 'productLaptop')); // Lưu vào thư mục 'product'
@@ -36,7 +36,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 routerAPI.post("/createProduct", upload.single('image'), createProductAPI);
-routerAPI.get("/getProduct", handleGetProduct)
+
 
 
 module.exports = routerAPI; //export default

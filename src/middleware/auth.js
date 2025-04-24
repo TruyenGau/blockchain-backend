@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const auth = (req, res, next) => {
-    const while_list = ["/", "/register", "/login"];
+    const while_list = ["/", "/register", "/login", "/getProduct"];
     if (while_list.find(item => '/v1/api' + item === req.originalUrl)) {
         next();
     } else {
