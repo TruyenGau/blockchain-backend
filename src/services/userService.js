@@ -134,6 +134,28 @@ const getProductService = async () => {
     }
 }
 
+const deleteProductService = async (id) => {
+    try {
+        let result = await Product.deleteOne({ _id: id });
+        return {
+            EC: 1,
+            result
+        }
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+const getProductDetailService = async (id) => {
+    try {
+        let result = await Product.find({ _id: id });
+        return result
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
 module.exports = {
     createUserService,
     loginService,
@@ -141,5 +163,7 @@ module.exports = {
     updateAccountService,
     getCountAccountService,
     getProductService,
-    getCountProductService
+    getCountProductService,
+    deleteProductService,
+    getProductDetailService
 }

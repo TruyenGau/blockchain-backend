@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUserAPI, handleLogin, getUser, getAccount, handleUpdateAccount, getCountUser, createProductAPI, handleGetProduct, getCountProduct } = require("../controllers/userController");
+const { createUserAPI, handleLogin, getUser, getAccount, handleUpdateAccount, getCountUser, createProductAPI, handleGetProduct, getCountProduct, handleDeleteProduct, getProductDetail, getAProduct } = require("../controllers/userController");
 const delay = require('../middleware/delay');
 const auth = require('../middleware/auth');
 const multer = require('multer');
@@ -36,6 +36,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 routerAPI.post("/createProduct", upload.single('image'), createProductAPI);
+routerAPI.delete("/deleteProduct", handleDeleteProduct)
+routerAPI.get("/getProductDetail/:id", getProductDetail)
+routerAPI.get("/getAProduct", getAProduct)
+
 
 
 

@@ -1,5 +1,5 @@
 const Product = require("../models/product");
-const { createUserService, loginService, getUserService, updateAccountService, getCountAccountService, getProductService, getCountProductService } = require("../services/userService");
+const { createUserService, loginService, getUserService, updateAccountService, getCountAccountService, getProductService, getCountProductService, deleteProductService, getProductDetailService } = require("../services/userService");
 const path = require('path');
 const createUserAPI = async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
@@ -70,6 +70,27 @@ const handleGetProduct = async (req, res) => {
     return res.status(200).json(data);
 }
 
+const handleDeleteProduct = async (req, res) => {
+    const { id } = req.body;
+
+    const data = await deleteProductService(id);
+    return res.status(200).json(data);
+}
+
+const getProductDetail = async (req, res) => {
+    const { id } = req.params;
+    // console.log("check id", id);
+    const data = await getProductDetailService(id);
+    return res.status(200).json(data);
+}
+const getAProduct = async (req, res) => {
+    const { id } = req.body;
+    // console.log("check id", id);
+    const data = await getProductDetailService(id);
+    return res.status(200).json(data);
+}
+
+
 module.exports = {
     createUserAPI,
     handleLogin,
@@ -79,5 +100,8 @@ module.exports = {
     getCountUser,
     createProductAPI,
     handleGetProduct,
-    getCountProduct
+    getCountProduct,
+    handleDeleteProduct,
+    getProductDetail,
+    getAProduct
 }
