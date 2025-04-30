@@ -84,8 +84,7 @@ const getProductDetail = async (req, res) => {
     return res.status(200).json(data);
 }
 const getAProduct = async (req, res) => {
-    const { id } = req.body;
-    // console.log("check id", id);
+    const { id } = req.params; // Sử dụng query parameter thay vì body
     const data = await getProductDetailService(id);
     return res.status(200).json(data);
 }
