@@ -126,6 +126,17 @@ const getCountProductService = async () => {
 }
 const getProductService = async () => {
     try {
+        // Fetch products with stock greater than 0
+        let result = await Product.find({ stock: { $gt: 0 } });
+        return result;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+const getProductServiceContract = async () => {
+    try {
         let result = await Product.find({});
         return result
     } catch (error) {
@@ -136,7 +147,10 @@ const getProductService = async () => {
 
 const deleteProductService = async (id) => {
     try {
-        let result = await Product.deleteOne({ _id: id });
+        // let result = await Product.deleteOne({ _id: id });
+        const stock = 0
+        let result = await Product.updateOne({ _id: id }, { stock: stock });
+
         return {
             EC: 1,
             result
@@ -165,5 +179,6 @@ module.exports = {
     getProductService,
     getCountProductService,
     deleteProductService,
-    getProductDetailService
+    getProductDetailService,
+    getProductServiceContract
 }

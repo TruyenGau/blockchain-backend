@@ -1,5 +1,5 @@
 const Product = require("../models/product");
-const { createUserService, loginService, getUserService, updateAccountService, getCountAccountService, getProductService, getCountProductService, deleteProductService, getProductDetailService } = require("../services/userService");
+const { createUserService, loginService, getUserService, updateAccountService, getCountAccountService, getProductService, getCountProductService, deleteProductService, getProductDetailService, getProductServiceContract } = require("../services/userService");
 const path = require('path');
 const createUserAPI = async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
@@ -44,7 +44,7 @@ const getCountProduct = async (req, res) => {
 
 const createProductAPI = async (req, res) => {
     try {
-        const { name, price, shortDesc, address, stock, category } = req.body;
+        const { name, price, shortDesc, address, stock, category, numberproduct } = req.body;
         const image = req.file ? path.basename(req.file.path) : null; // Chỉ lấy tên file
         // Lưu thông tin sản phẩm vào cơ sở dữ liệu
         const newProduct = new Product({
@@ -54,7 +54,8 @@ const createProductAPI = async (req, res) => {
             address,
             stock,
             category,
-            image, // Lưu đường dẫn đến ảnh
+            image, // Lưu đường dẫn đến ảnh,
+            numberproduct
         });
 
         await newProduct.save();
@@ -70,6 +71,10 @@ const handleGetProduct = async (req, res) => {
     return res.status(200).json(data);
 }
 
+const handleGetProductContract = async (req, res) => {
+    const data = await getProductServiceContract();
+    return res.status(200).json(data);
+}
 const handleDeleteProduct = async (req, res) => {
     const { id } = req.body;
 
@@ -102,5 +107,6 @@ module.exports = {
     getCountProduct,
     handleDeleteProduct,
     getProductDetail,
-    getAProduct
+    getAProduct,
+    handleGetProductContract
 }

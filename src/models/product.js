@@ -8,6 +8,8 @@ const ProductSchema = new mongoose.Schema({
     shortDesc: { type: String, required: true },
     stock: { type: Number, required: true }, // stock có thể là một số
     address: { type: String, required: true }, // Địa chỉ seller lưu dưới dạng chuỗi
+    numberproduct: { type: String, required: true }, // Địa chỉ seller lưu dưới dạng chuỗi
+
 });
 
 const Product = mongoose.model('Product', ProductSchema);
