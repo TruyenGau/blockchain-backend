@@ -1,5 +1,6 @@
 const Product = require("../models/product");
-const { createUserService, loginService, getUserService, updateAccountService, getCountAccountService, getProductService, getCountProductService, deleteProductService, getProductDetailService, getProductServiceContract } = require("../services/userService");
+const User = require('../models/user');
+const { createUserService, loginService, getUserService, updateAccountService, getCountAccountService, getProductService, getCountProductService, deleteProductService, getProductDetailService, getProductServiceContract, deleteUserService } = require("../services/userService");
 const path = require('path');
 const createUserAPI = async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
@@ -94,6 +95,104 @@ const getAProduct = async (req, res) => {
     return res.status(200).json(data);
 }
 
+const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();  // Lấy tất cả người dùng từ MongoDB
+        res.json({ success: true, data: users });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Lỗi khi lấy danh sách người dùng' });
+    }
+
+}
+
+const getUserDetail = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id).select('-password'); // Ẩn mật khẩu
+        if (!user) {
+            return res.status(404).json({ EC: 1, EM: 'Không tìm thấy người dùng' });
+        }
+        return res.status(200).json({ EC: 0, EM: 'Thành công', data: user });
+    } catch (error) {
+        console.error('Lỗi khi lấy chi tiết người dùng:', error);
+        return res.status(500).json({ EC: -1, EM: 'Lỗi server' });
+    }
+}
+
+const handleDeleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({
+                EC: 1,
+                EM: "Thiếu ID người dùng cần xóa",
+                data: null
+            });
+        }
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({
+                EC: 1,
+                EM: "Người dùng không tồn tại",
+                data: null
+            });
+        }
+
+        await User.findByIdAndDelete(id);
+
+        return res.status(200).json({
+            EC: 0,
+            EM: "Xóa người dùng thành công",
+            data: user
+        });
+    } catch (error) {
+        console.error("Lỗi xóa người dùng:", error);
+        return res.status(500).json({
+            EC: 1,
+            EM: "Đã xảy ra lỗi khi xóa người dùng",
+            data: null
+        });
+    }
+};
+
+
+const handleUpdateUser = async (req, res) => {
+    try {
+        const { id, name, email, address } = req.body;
+
+        if (!id) {
+            return res.status(400).json({ EC: 1, EM: "Thiếu ID người dùng", data: null });
+        }
+
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ EC: 1, EM: "Người dùng không tồn tại", data: null });
+        }
+
+        user.name = name || user.name;
+        user.email = email || user.email;
+        user.address = address || user.address;
+
+        await user.save();
+
+        return res.status(200).json({
+            EC: 0,
+            EM: "Cập nhật người dùng thành công",
+            data: user
+        });
+
+    } catch (error) {
+        console.error("Lỗi cập nhật người dùng:", error);
+        return res.status(500).json({ EC: -1, EM: "Lỗi server", data: null });
+    }
+};
+
+
+;
+
+
 
 module.exports = {
     createUserAPI,
@@ -108,5 +207,9 @@ module.exports = {
     handleDeleteProduct,
     getProductDetail,
     getAProduct,
-    handleGetProductContract
+    handleGetProductContract,
+    getAllUsers,
+    getUserDetail,
+    handleDeleteUser,
+    handleUpdateUser
 }

@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUserAPI, handleLogin, getUser, getAccount, handleUpdateAccount, getCountUser, createProductAPI, handleGetProduct, getCountProduct, handleDeleteProduct, getProductDetail, getAProduct, handleGetProductContract } = require("../controllers/userController");
+const { createUserAPI, handleLogin, getUser, getAccount, handleUpdateAccount, getCountUser, createProductAPI, handleGetProduct, getCountProduct, handleDeleteProduct, getProductDetail, getAProduct, handleGetProductContract, getAllUsers, getUserDetail, handleDeleteUser, handleUpdateUser } = require("../controllers/userController");
 const delay = require('../middleware/delay');
 const auth = require('../middleware/auth');
 const multer = require('multer');
@@ -7,6 +7,9 @@ const Product = require('../models/product');
 const routerAPI = express.Router();
 const path = require('path');
 const fs = require('fs');
+
+routerAPI.get("/getUser", getAllUsers);
+routerAPI.get("/getUserDetail/:id", getUserDetail);
 
 routerAPI.all("*", auth)
 
@@ -37,6 +40,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+routerAPI.delete("/users/:id", handleDeleteUser);
+routerAPI.put('/updateUser', handleUpdateUser);
 routerAPI.post("/createProduct", upload.single('image'), createProductAPI);
 routerAPI.put("/deleteProduct", handleDeleteProduct)
 routerAPI.get("/getProductDetail/:id", getProductDetail)

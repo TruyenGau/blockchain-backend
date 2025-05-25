@@ -170,6 +170,24 @@ const getProductDetailService = async (id) => {
         return null;
     }
 }
+
+const deleteUserService = async (id) => {
+    try {
+        const user = await User.findById(id);
+        if (!user) {
+            return { EC: 1, EM: 'Không tìm thấy người dùng' };
+        }
+        // Xóa người dùng
+        await User.findByIdAndDelete(id);
+        return { EC: 0, EM: 'Xóa người dùng thành công' };
+    } catch (error) {
+        console.error('Lỗi khi xóa người dùng:', error);
+        return { EC: -1, EM: 'Lỗi server khi xóa người dùng' };
+    }
+};
+
+
+
 module.exports = {
     createUserService,
     loginService,
@@ -180,5 +198,6 @@ module.exports = {
     getCountProductService,
     deleteProductService,
     getProductDetailService,
-    getProductServiceContract
+    getProductServiceContract,
+    deleteUserService
 }
