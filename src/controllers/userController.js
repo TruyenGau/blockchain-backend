@@ -190,9 +190,6 @@ const handleUpdateUser = async (req, res) => {
 };
 
 
-<<<<<<< HEAD
-=======
-
 const getProductStatistics = async (req, res) => {
     try {
         const products = await Product.find();
@@ -222,14 +219,6 @@ const getProductStatistics = async (req, res) => {
     }
 };
 
-
-
-
-;
-
-
-
->>>>>>> 1235ef90727f9593bf9c9c8dbfcd719e6b89cb87
 module.exports = {
     createUserAPI,
     handleLogin,
