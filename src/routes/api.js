@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUserAPI, handleLogin, getUser, getAccount, handleUpdateAccount, getCountUser, createProductAPI, handleGetProduct, getCountProduct, handleDeleteProduct, getProductDetail, getAProduct, handleGetProductContract, getAllUsers, getUserDetail, handleDeleteUser, handleUpdateUser } = require("../controllers/userController");
+const { createUserAPI, handleLogin, getUser, getAccount, handleUpdateAccount, getCountUser, createProductAPI, handleGetProduct, getCountProduct, handleDeleteProduct, getProductDetail, getAProduct, handleGetProductContract, getAllUsers, getUserDetail, handleDeleteUser, handleUpdateUser, getProductStatistics } = require("../controllers/userController");
 const delay = require('../middleware/delay');
 const auth = require('../middleware/auth');
 const multer = require('multer');
@@ -8,6 +8,9 @@ const routerAPI = express.Router();
 const path = require('path');
 const fs = require('fs');
 
+
+
+routerAPI.get("/getProductStatistics", getProductStatistics);
 routerAPI.get("/getUser", getAllUsers);
 routerAPI.get("/getUserDetail/:id", getUserDetail);
 

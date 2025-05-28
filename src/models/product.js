@@ -10,6 +10,7 @@ const ProductSchema = new mongoose.Schema({
     address: { type: String, required: true }, // Địa chỉ seller lưu dưới dạng chuỗi
     numberproduct: { type: String, required: true }, // Địa chỉ seller lưu dưới dạng chuỗi
 
+
 });
 
 const Product = mongoose.model('Product', ProductSchema);

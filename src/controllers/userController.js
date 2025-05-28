@@ -190,6 +190,39 @@ const handleUpdateUser = async (req, res) => {
 };
 
 
+
+const getProductStatistics = async (req, res) => {
+    try {
+        const products = await Product.find();
+
+        const totalProducts = products.length;
+        const totalInStock = products.reduce((sum, p) => sum + (p.stock || 0), 0);
+
+        const categoryCount = {};
+        const categoryStock = {};
+        for (const p of products) {
+            const category = p.category || "Chưa phân loại"; // xử lý null
+            const stock = p.stock || 0;
+
+            categoryCount[category] = (categoryCount[category] || 0) + 1;
+            categoryStock[category] = (categoryStock[category] || 0) + stock;
+        }
+
+        res.json({
+            totalProducts,
+            totalInStock,
+            categoryCount,
+            categoryStock
+        });
+    } catch (err) {
+        console.error("🔥 Lỗi backend:", err);
+        res.status(500).json({ error: "Lỗi khi thống kê sản phẩm" });
+    }
+};
+
+
+
+
 ;
 
 
@@ -211,5 +244,6 @@ module.exports = {
     getAllUsers,
     getUserDetail,
     handleDeleteUser,
-    handleUpdateUser
+    handleUpdateUser,
+    getProductStatistics
 }
