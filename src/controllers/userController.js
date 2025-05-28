@@ -108,7 +108,7 @@ const getAllUsers = async (req, res) => {
 const getUserDetail = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await User.findById(id).select('-password'); // Ẩn mật khẩu
+        const user = await User.findById(id).select('-password');
         if (!user) {
             return res.status(404).json({ EC: 1, EM: 'Không tìm thấy người dùng' });
         }
@@ -188,10 +188,6 @@ const handleUpdateUser = async (req, res) => {
         return res.status(500).json({ EC: -1, EM: "Lỗi server", data: null });
     }
 };
-
-
-;
-
 
 
 module.exports = {
